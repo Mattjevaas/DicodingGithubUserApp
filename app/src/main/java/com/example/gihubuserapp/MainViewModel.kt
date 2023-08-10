@@ -3,6 +3,7 @@ package com.example.gihubuserapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.gihubuserapp.data.response.GithubUserSearchResponse
 import com.example.gihubuserapp.data.response.GithubUsersResponseItem
 import com.example.gihubuserapp.data.retrofit.ApiConfig
 import retrofit2.Call
@@ -47,10 +48,52 @@ class MainViewModel: ViewModel() {
                     return
                 }
 
+//                if(responseBody.isEmpty()) {
+//                    _isEmpty.value = true
+//                    return
+//                }
+
                 _githubUsers.value = responseBody
             }
 
             override fun onFailure(call: Call<List<GithubUsersResponseItem>>, t: Throwable) {
+                _isLoading.value = false
+                _isError.value = true
+            }
+        })
+    }
+
+    fun refreshData() {
+        getUsers()
+    }
+
+    fun searchUser(name: String) {
+        _isLoading.value = true
+        _isError.value = false
+
+        val client = ApiConfig.getApiService().searchUser(name)
+
+        client.enqueue(object: Callback<GithubUserSearchResponse>{
+            override fun onResponse(
+                call: Call<GithubUserSearchResponse>,
+                response: Response<GithubUserSearchResponse>
+            ) {
+                _isLoading.value = false
+                if(!response.isSuccessful) {
+                    _isError.value = true
+                    return
+                }
+
+                val responseBody = response.body()
+                if(responseBody == null) {
+                    _isError.value = true
+                    return
+                }
+
+                _githubUsers.value = responseBody.items
+            }
+
+            override fun onFailure(call: Call<GithubUserSearchResponse>, t: Throwable) {
                 _isLoading.value = false
                 _isError.value = true
             }

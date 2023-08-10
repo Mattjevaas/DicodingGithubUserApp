@@ -1,8 +1,10 @@
 package com.example.gihubuserapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecoration)
+        binding.rvUsers.setHasFixedSize(true)
 
         mainViewModel.githubUsers.observe(this) {githubUsers ->
             setUserData(githubUsers)
@@ -38,11 +41,38 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isError.observe(this) {
             showError(it)
         }
+
+//        mainViewModel.isEmpty.observe(this) {
+//            showEmpty(it)
+//        }
+
+        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query == null || query.isEmpty()) {
+                    return false
+                }
+
+                mainViewModel.searchUser(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText == null || newText.isEmpty()) {
+                    mainViewModel.refreshData()
+                    return false
+                }
+                return false
+            }
+        })
+    }
+
+    private fun goToUserDetail(user: GithubUsersResponseItem){
+        return
     }
 
     private fun setUserData(githubUsers: List<GithubUsersResponseItem>?) {
-        val listUserAdapter = ListUserAdapter()
-        listUserAdapter.submitList(githubUsers)
+        val listUserAdapter = ListUserAdapter(githubUsers!! ,::goToUserDetail)
+        //listUserAdapter.submitList(githubUsers)
         binding.rvUsers.adapter = listUserAdapter
     }
 

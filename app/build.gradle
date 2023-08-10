@@ -18,7 +18,7 @@ android {
     }
 
     def API_KEY_TAG = "API_KEY"
-    def API_KEY= '"apikey"'
+    def API_KEY= '"token"'
 
     buildTypes {
         debug {
