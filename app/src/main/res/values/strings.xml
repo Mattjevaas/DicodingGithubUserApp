@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GihubUserApp</string>
+    <string name="search_user_here">Search User Here</string>
+    <string name="something_wrong_image">Something Wrong Image</string>
+    <string name="user_avatar">User Avatar</string>
+    <string name="user_name">User Name</string>
+    <string name="user_description">User Description</string>
+</resources>
