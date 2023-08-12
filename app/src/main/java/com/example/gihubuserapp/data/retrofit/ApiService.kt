@@ -40,4 +40,19 @@ interface ApiService {
     )
     fun getUserDetail(@Path("username") username: String): Call<GithubUserDetailResponse>
 
+    @GET("/users/{username}/following")
+    @Headers(
+        "Authorization: Bearer $TOKEN",
+        "Accept: application/json",
+        "X-GitHub-Api-Version: 2022-11-28"
+    )
+    fun getUserFollowing(@Path("username") username: String): Call<List<GithubUsersResponseItem>>
+
+    @GET("/users/{username}/followers")
+    @Headers(
+        "Authorization: Bearer $TOKEN",
+        "Accept: application/json",
+        "X-GitHub-Api-Version: 2022-11-28"
+    )
+    fun getUserFollowers(@Path("username") username: String): Call<List<GithubUsersResponseItem>>
 }

@@ -30,8 +30,11 @@ class DetailUserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val username = intent.getStringExtra(MainActivity.EXTRA_USERNAME)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (username != null) {
+            supportActionBar?.title = username
+
             userDetailViewModel.getUserDetail(username)
 
             val sectionsPagerAdapter = SectionsPagerAdapter(this, username!!)
@@ -64,5 +67,10 @@ class DetailUserActivity : AppCompatActivity() {
                 binding.hasDataState.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 }
