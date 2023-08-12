@@ -17,6 +17,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
 
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -67,7 +71,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToUserDetail(user: GithubUsersResponseItem){
-        return
+        val moveIntent = Intent(this@MainActivity, DetailUserActivity::class.java)
+        moveIntent.putExtra(EXTRA_USERNAME, user.login)
+        startActivity(moveIntent)
     }
 
     private fun setUserData(githubUsers: List<GithubUsersResponseItem>?) {

@@ -6,4 +6,12 @@
     <string name="user_name">User Name</string>
     <string name="user_description">User Description</string>
     <string name="not_found">Not Found</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="following_tab">Following</string>
+    <string name="followers_tab">Followers</string>
+    <string name="loading">Loading...</string>
+    <string name="user_full_name">User Full Name</string>
+    <string name="username">username</string>
+    <string name="_0_following">0 Following</string>
+    <string name="_0_followers">0 Followers</string>
 </resources>
