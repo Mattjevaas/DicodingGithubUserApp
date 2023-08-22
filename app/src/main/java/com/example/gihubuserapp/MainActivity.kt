@@ -17,10 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
 
-    companion object {
-        const val EXTRA_USERNAME = "extra_username"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -52,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(query == null || query.isEmpty()) {
+                if(query.isNullOrEmpty()) {
                     return false
                 }
 
@@ -61,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText == null || newText.isEmpty()) {
+                if(newText.isNullOrEmpty()) {
                     mainViewModel.refreshData()
                     return false
                 }
@@ -99,4 +95,9 @@ class MainActivity : AppCompatActivity() {
             binding.rvUsers.visibility = View.VISIBLE
         }
     }
+
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
+    }
+
 }

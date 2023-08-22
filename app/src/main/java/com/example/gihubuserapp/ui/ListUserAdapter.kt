@@ -16,20 +16,6 @@ class ListUserAdapter(
     private val onClick: (GithubUsersResponseItem) -> Unit
 ): androidx.recyclerview.widget.ListAdapter<GithubUsersResponseItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GithubUsersResponseItem>() {
-            override fun areItemsTheSame(oldItem: GithubUsersResponseItem, newItem: GithubUsersResponseItem): Boolean {
-                return oldItem == newItem
-            }
-            override fun areContentsTheSame(oldItem: GithubUsersResponseItem, newItem: GithubUsersResponseItem): Boolean {
-                return oldItem == newItem
-            }
-        }
-
-        private const val VIEW_TYPE_ITEM = 0
-        private const val VIEW_TYPE_NOT_FOUND = 1
-    }
-
     private inner class MyViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: GithubUsersResponseItem){
             Glide.with(itemView.context)
@@ -80,5 +66,19 @@ class ListUserAdapter(
             val user = users[position]
             (holder as MyViewHolder).bind(user)
         }
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GithubUsersResponseItem>() {
+            override fun areItemsTheSame(oldItem: GithubUsersResponseItem, newItem: GithubUsersResponseItem): Boolean {
+                return oldItem == newItem
+            }
+            override fun areContentsTheSame(oldItem: GithubUsersResponseItem, newItem: GithubUsersResponseItem): Boolean {
+                return oldItem == newItem
+            }
+        }
+
+        private const val VIEW_TYPE_ITEM = 0
+        private const val VIEW_TYPE_NOT_FOUND = 1
     }
 }

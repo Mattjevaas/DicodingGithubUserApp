@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.gihubuserapp.databinding.ActivityDetailUserBinding
+import com.example.gihubuserapp.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -15,14 +16,6 @@ class DetailUserActivity : AppCompatActivity() {
 
     private  lateinit var binding: ActivityDetailUserBinding
     private val userDetailViewModel: DetailUserViewModel by viewModels()
-
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.following_tab,
-            R.string.followers_tab
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +31,9 @@ class DetailUserActivity : AppCompatActivity() {
             userDetailViewModel.getUserDetail(username)
 
             val sectionsPagerAdapter = SectionsPagerAdapter(this, username!!)
-            val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+            val viewPager: ViewPager2 = binding.viewPager
             viewPager.adapter = sectionsPagerAdapter
-            val tabs: TabLayout = findViewById(R.id.tabsUser)
+            val tabs: TabLayout = binding.tabsUser
             TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
@@ -54,8 +47,8 @@ class DetailUserActivity : AppCompatActivity() {
                 .into(binding.userAvatar)
             binding.userFullName.text = userDetail.name
             binding.userName.text = userDetail.login
-            binding.followingText.text = "${userDetail.following} Following"
-            binding.followersText.text = "${userDetail.followers} Followers"
+            binding.followingText.text = StringBuilder(userDetail.following.toString()).append(" Following")
+            binding.followersText.text = StringBuilder(userDetail.followers.toString()).append(" Followers")
         }
 
         userDetailViewModel.isLoading.observe(this) {
@@ -72,5 +65,13 @@ class DetailUserActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return super.onSupportNavigateUp()
+    }
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.following_tab,
+            R.string.followers_tab
+        )
     }
 }
