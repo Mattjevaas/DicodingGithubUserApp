@@ -1,11 +1,15 @@
 package com.example.gihubuserapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gihubuserapp.data.response.GithubUsersResponseItem
@@ -22,13 +26,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.hide()
         val layoutManager = LinearLayoutManager(this)
         binding.rvUsers.layoutManager = layoutManager
 
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecoration)
         binding.rvUsers.setHasFixedSize(true)
+
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val themeViewModel = ViewModelProvider(this, ViewModelFactory(pref))[SettingThemeViewModel::class.java]
+
+        themeViewModel.getThemeSettings().observe(this) {isDarkModeActive: Boolean ->
+            if(isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         mainViewModel.githubUsers.observe(this) {githubUsers ->
             setUserData(githubUsers)
@@ -64,6 +78,22 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_view_item, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.setting_page -> {
+                val intent = Intent(binding.root.context, SettingThemeActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        return false
     }
 
     private fun goToUserDetail(user: GithubUsersResponseItem){
