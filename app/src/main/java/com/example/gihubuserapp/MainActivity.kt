@@ -49,14 +49,17 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.githubUsers.observe(this) { githubUsers ->
             setUserData(githubUsers)
+            binding.searchView.clearFocus();
         }
 
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
+            binding.searchView.clearFocus();
         }
 
         mainViewModel.isError.observe(this) {
             showError(it)
+            binding.searchView.clearFocus();
         }
 
 //        mainViewModel.isEmpty.observe(this) {
@@ -81,6 +84,11 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.searchView.clearFocus();
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
