@@ -1,9 +1,9 @@
-package com.example.gihubuserapp.data.retrofit
+package com.example.gihubuserapp.data.remote.retrofit
 
 import com.example.gihubuserapp.BuildConfig
-import com.example.gihubuserapp.data.response.GithubUserDetailResponse
-import com.example.gihubuserapp.data.response.GithubUserSearchResponse
-import com.example.gihubuserapp.data.response.GithubUsersResponseItem
+import com.example.gihubuserapp.data.remote.response.GithubUserDetailResponse
+import com.example.gihubuserapp.data.remote.response.GithubUserSearchResponse
+import com.example.gihubuserapp.data.remote.response.GithubUsersResponseItem
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers

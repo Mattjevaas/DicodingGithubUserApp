@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.gihubuserapp.data.response.GithubUsersResponseItem
+import com.example.gihubuserapp.data.remote.response.GithubUsersResponseItem
 import com.example.gihubuserapp.databinding.ActivityMainBinding
 import com.example.gihubuserapp.ui.ListUserAdapter
 
@@ -33,18 +33,21 @@ class MainActivity : AppCompatActivity() {
         binding.rvUsers.addItemDecoration(itemDecoration)
         binding.rvUsers.setHasFixedSize(true)
 
-        val pref = SettingPreferences.getInstance(application.dataStore)
-        val themeViewModel = ViewModelProvider(this, ViewModelFactory(pref))[SettingThemeViewModel::class.java]
+        val themeViewModel = ViewModelProvider(
+            this, ViewModelFactory.getInstance(
+                application,
+            )
+        )[SettingThemeViewModel::class.java]
 
-        themeViewModel.getThemeSettings().observe(this) {isDarkModeActive: Boolean ->
-            if(isDarkModeActive) {
+        themeViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
 
-        mainViewModel.githubUsers.observe(this) {githubUsers ->
+        mainViewModel.githubUsers.observe(this) { githubUsers ->
             setUserData(githubUsers)
         }
 
@@ -60,9 +63,9 @@ class MainActivity : AppCompatActivity() {
 //            showEmpty(it)
 //        }
 
-        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(query.isNullOrEmpty()) {
+                if (query.isNullOrEmpty()) {
                     return false
                 }
 
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()) {
+                if (newText.isNullOrEmpty()) {
                     mainViewModel.refreshData()
                     return false
                 }
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.setting_page -> {
                 val intent = Intent(binding.root.context, SettingThemeActivity::class.java)
                 startActivity(intent)
@@ -96,14 +99,14 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun goToUserDetail(user: GithubUsersResponseItem){
+    private fun goToUserDetail(user: GithubUsersResponseItem) {
         val moveIntent = Intent(this@MainActivity, DetailUserActivity::class.java)
         moveIntent.putExtra(EXTRA_USERNAME, user.login)
         startActivity(moveIntent)
     }
 
     private fun setUserData(githubUsers: List<GithubUsersResponseItem>?) {
-        val listUserAdapter = ListUserAdapter(githubUsers!! ,::goToUserDetail)
+        val listUserAdapter = ListUserAdapter(githubUsers!!, ::goToUserDetail)
         //listUserAdapter.submitList(githubUsers)
         binding.rvUsers.adapter = listUserAdapter
     }

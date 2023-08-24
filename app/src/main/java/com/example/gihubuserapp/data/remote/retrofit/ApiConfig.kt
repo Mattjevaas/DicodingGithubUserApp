@@ -1,4 +1,4 @@
-package com.example.gihubuserapp.data.retrofit
+package com.example.gihubuserapp.data.remote.retrofit
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient

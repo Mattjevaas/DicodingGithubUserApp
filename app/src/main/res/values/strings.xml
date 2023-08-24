@@ -16,4 +16,6 @@
     <string name="_0_followers">0 Followers</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="setting">Setting</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="following_tab_layout">Following Tab</string>
 </resources>

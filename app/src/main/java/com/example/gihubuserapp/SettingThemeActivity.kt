@@ -1,8 +1,8 @@
 package com.example.gihubuserapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.gihubuserapp.databinding.ActivitySettingThemeBinding
@@ -16,12 +16,14 @@ class SettingThemeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val switchTheme = binding.switchTheme
+        val themeViewModel = ViewModelProvider(
+            this, ViewModelFactory.getInstance(
+                application
+            )
+        )[SettingThemeViewModel::class.java]
 
-        val pref = SettingPreferences.getInstance(application.dataStore)
-        val themeViewModel = ViewModelProvider(this, ViewModelFactory(pref))[SettingThemeViewModel::class.java]
-
-        themeViewModel.getThemeSettings().observe(this) {isDarkModeActive: Boolean ->
-            if(isDarkModeActive) {
+        themeViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 switchTheme.isChecked = true
             } else {

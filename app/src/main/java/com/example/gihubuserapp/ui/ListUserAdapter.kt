@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gihubuserapp.R
-import com.example.gihubuserapp.data.response.GithubUsersResponseItem
+import com.example.gihubuserapp.data.remote.response.GithubUsersResponseItem
 import com.example.gihubuserapp.databinding.ItemRowUserBinding
 import com.example.gihubuserapp.databinding.NotFoundBinding
 
