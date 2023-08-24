@@ -21,7 +21,7 @@ android {
     }
 
     def API_KEY_TAG = "API_KEY"
-    def API_KEY = '"token"'
+    def API_KEY = '"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"'
 
     buildTypes {
         debug {

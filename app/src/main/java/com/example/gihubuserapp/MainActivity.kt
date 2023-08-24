@@ -94,6 +94,10 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(binding.root.context, SettingThemeActivity::class.java)
                 startActivity(intent)
             }
+            R.id.bookmark_page -> {
+                val intent = Intent(binding.root.context, FavoriteUserActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         return false
